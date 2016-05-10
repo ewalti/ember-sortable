@@ -6,6 +6,9 @@ const a = A;
 const NO_MODEL = {};
 
 export default Component.extend({
+
+  classNames: ['sortable-group'],
+
   layout: layout,
 
   /**
@@ -151,7 +154,12 @@ export default Component.extend({
     if (groupModel !== NO_MODEL) {
       this.sendAction('onChange', groupModel, itemModels, draggedModel);
     } else {
-      this.sendAction('onChange', itemModels, draggedModel);
+      let action = get(this, 'attrs.on-change');
+      if(action) {
+        action(itemModels, draggedModel);
+      } else {
+        this.sendAction('onChange', itemModels, draggedModel);
+      }
     }
   }
 });
